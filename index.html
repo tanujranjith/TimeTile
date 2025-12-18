@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mood Productivity</title>
+    <link rel="stylesheet" href="styles/app.css" />
+  </head>
+  <body>
+    <div id="app" class="app">
+      <aside class="sidebar" aria-label="Daily timeline">
+        <header class="sidebar-header">
+          <h2>Daily Timeline</h2>
+          <div class="controls">
+            <button id="timezoneBtn" class="btn small" aria-label="Change timezone">⏰</button>
+            <label class="toggle" aria-label="Manual mode">
+              <input type="checkbox" id="manualModeToggle" />
+              <span>Manual Mode</span>
+            </label>
+          </div>
+        </header>
+        <div id="timeline" class="timeline" aria-live="polite">
+          <div class="empty-state" id="timelineEmpty">No blocks yet — add a block to start your day</div>
+        </div>
+        <div class="timeline-footer">
+          <button id="addBlockBtn" class="btn" aria-label="Add block">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Add Block
+          </button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="main-header">
+          <h1 id="appTitle">Today's Focus</h1>
+          <div class="theme-info">
+            <span id="modeLabel">Mode</span>
+            <button id="syncBtn" class="btn small" aria-label="Sign in and sync">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5"/><path d="M21 3L10 14"/><path d="M21 21H3V3"/></svg>
+              Sign In / Sync
+            </button>
+          </div>
+        </header>
+
+        <!-- contextual hint: shows current or next scheduled block -->
+        <div id="contextHint" class="context-hint" role="status" aria-live="polite"> </div>
+
+        <section class="workspace">
+          <section class="current-block card">
+            <h3 id="currentBlockName">No active block</h3>
+            <p id="currentBlockTime"></p>
+            <div class="countdown" id="countdown">--:--:--</div>
+            <div class="cb-actions">
+              <button id="startFocusBtn" class="btn primary">Start focus session</button>
+            </div>
+          </section>
+
+          <section class="tasks card">
+            <h4>Tasks</h4>
+            <div class="task-input">
+              <input id="newTaskInput" placeholder="Add a quick task" />
+              <button id="addTaskBtn" class="btn">Add</button>
+            </div>
+            <ul id="tasksList" class="tasks-list"></ul>
+          </section>
+
+          <section class="priorities card">
+            <h4>Top 3 Priorities</h4>
+            <ol id="prioritiesList" class="priorities-list">
+              <li contenteditable="true" data-priority-index="0" class="priority">Focus on key task</li>
+              <li contenteditable="true" data-priority-index="1" class="priority">Deep work</li>
+              <li contenteditable="true" data-priority-index="2" class="priority">Plan tomorrow</li>
+            </ol>
+          </section>
+
+          <section class="notes card">
+            <h4>Notes</h4>
+            <textarea id="dayNotes" placeholder="Lightweight notes for today..."></textarea>
+          </section>
+
+          <section class="summary card">
+            <h4>Progress Summary</h4>
+            <div id="summaryContent">
+              <p>Completed tasks: <span id="completedCount">0</span></p>
+              <p>Focus minutes: <span id="focusMinutes">0</span></p>
+              <p>Blocks completed: <span id="blocksCompleted">0</span></p>
+            </div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <script type="module" src="scripts/app.js"></script>
+    <!-- Block editor modal -->
+    <div id="blockEditorModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+      <div class="modal-backdrop" id="modalBackdrop"></div>
+      <div class="modal-panel" role="document">
+        <header class="modal-header">
+          <h3 id="modalTitle">Edit Block</h3>
+        </header>
+        <form id="blockEditorForm" class="modal-form">
+          <input type="hidden" id="blockIdInput" />
+          <label>Name<div><input id="blockNameInput" required placeholder="e.g. Robotics" /></div></label>
+          <div class="form-row">
+            <label>Start<div><input id="blockStartInput" type="time" required /></div></label>
+            <label>End<div><input id="blockEndInput" type="time" required /></div></label>
+          </div>
+          <label>Category<div><input id="blockCategoryInput" placeholder="Gym / School / Sleep" /></div></label>
+          <div class="form-row">
+            <label>Color<div><input id="blockColorInput" type="color" value="#7c3aed" /></div></label>
+            <label class="small"><input id="blockRecurringInput" type="checkbox" /> Recurring</label>
+          </div>
+          <div class="modal-actions">
+            <button type="button" id="cancelBlockBtn" class="btn">Cancel</button>
+            <button type="submit" id="saveBlockBtn" class="btn primary">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
