@@ -12,11 +12,21 @@
         <header class="sidebar-header">
           <h2>Daily Timeline</h2>
           <div class="controls">
-            <button id="timezoneBtn" class="btn small" aria-label="Change timezone">⏰</button>
+            <button id="timezoneBtn" class="btn small" type="button" aria-label="Change timezone" title="Change timezone">
+              <span aria-hidden="true">🌐</span>
+              <span id="timezoneLabel" class="tz-label">Local</span>
+            </button>
             <label class="toggle" aria-label="Manual mode">
               <input type="checkbox" id="manualModeToggle" />
               <span>Manual Mode</span>
             </label>
+            <select id="forcedModeSelect" class="select small" aria-label="Select theme mode" disabled>
+              <option value="">Auto</option>
+              <option value="morning">Morning</option>
+              <option value="afternoon">Afternoon</option>
+              <option value="evening">Evening</option>
+              <option value="night">Night</option>
+            </select>
           </div>
         </header>
         <div id="timeline" class="timeline" aria-live="polite">
@@ -92,9 +102,9 @@
 
     <script type="module" src="scripts/app.js"></script>
     <!-- Block editor modal -->
-    <div id="blockEditorModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true">
+    <div id="blockEditorModal" class="modal" role="dialog" aria-modal="true" aria-hidden="true" aria-labelledby="modalTitle">
       <div class="modal-backdrop" id="modalBackdrop"></div>
-      <div class="modal-panel" role="document">
+      <div class="modal-panel" role="document" tabindex="-1">
         <header class="modal-header">
           <h3 id="modalTitle">Edit Block</h3>
         </header>
